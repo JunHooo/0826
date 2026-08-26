@@ -10,14 +10,26 @@ html,
 body {
   width: 100%;
   height: 100%;
+  height: 100dvh;
   overflow: hidden;
   background: #050510;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 #sky {
   display: block;
+  position: fixed;
+  inset: 0;
   width: 100%;
   height: 100%;
+  height: 100dvh;
+  touch-action: none;
   background:
     radial-gradient(ellipse 120% 80% at 50% 100%, #1a1030 0%, transparent 55%),
     radial-gradient(ellipse 90% 60% at 20% 20%, #0a1830 0%, transparent 50%),
@@ -30,6 +42,10 @@ body {
   left: 50%;
   top: 64%;
   transform: translate(-50%, 0);
+  width: min(92vw, 36rem);
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   text-align: center;
   pointer-events: none;
   z-index: 2;
@@ -37,11 +53,13 @@ body {
 }
 
 .message__line {
-  font-family: "Noto Serif SC", "Songti SC", serif;
+  font-family: "Noto Serif SC", "Songti SC", "PingFang SC", serif;
   font-weight: 700;
-  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  font-size: clamp(1.85rem, 8.2vw, 4.2rem);
   letter-spacing: 0.28em;
+  text-indent: 0.28em;
   color: #ffe6f0;
+  line-height: 1.25;
   text-shadow:
     0 0 12px rgba(255, 120, 170, 0.9),
     0 0 36px rgba(255, 60, 120, 0.55),
@@ -49,12 +67,15 @@ body {
 }
 
 .message__sub {
-  margin-top: 0.45rem;
-  font-family: "Great Vibes", cursive;
-  font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+  margin-top: 0.55rem;
+  font-family: "Noto Serif SC", "Songti SC", "PingFang SC", serif;
+  font-weight: 500;
+  font-size: clamp(0.95rem, 4.2vw, 1.55rem);
   color: #ffd0e0;
   letter-spacing: 0.08em;
-  opacity: 0.92;
+  line-height: 1.45;
+  word-break: keep-all;
+  opacity: 0.95;
   text-shadow:
     0 0 10px rgba(255, 150, 190, 0.8),
     0 0 28px rgba(255, 80, 140, 0.4);
@@ -81,12 +102,55 @@ body {
   }
 }
 
+/* 手机竖屏：文字贴底部，避开爱心 */
 @media (max-width: 640px) {
   .message {
-    top: 62%;
+    top: auto;
+    bottom: max(12vh, calc(env(safe-area-inset-bottom) + 8vh));
   }
 
   .message__line {
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
+    text-indent: 0.16em;
+  }
+
+  .message__sub {
+    letter-spacing: 0.04em;
+    margin-top: 0.4rem;
+  }
+}
+
+/* 矮屏手机 */
+@media (max-width: 640px) and (max-height: 720px) {
+  .message {
+    bottom: max(8vh, calc(env(safe-area-inset-bottom) + 4.5vh));
+  }
+
+  .message__line {
+    font-size: clamp(1.6rem, 7.5vw, 2.4rem);
+  }
+
+  .message__sub {
+    font-size: clamp(0.85rem, 3.8vw, 1.15rem);
+  }
+}
+
+/* 横屏手机 */
+@media (max-height: 480px) and (orientation: landscape) {
+  .message {
+    top: auto;
+    bottom: max(1.2rem, env(safe-area-inset-bottom));
+    width: min(70vw, 28rem);
+  }
+
+  .message__line {
+    font-size: clamp(1.35rem, 5vw, 2rem);
+    letter-spacing: 0.14em;
+    text-indent: 0.14em;
+  }
+
+  .message__sub {
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
+    margin-top: 0.25rem;
   }
 }
