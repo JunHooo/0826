@@ -1,0 +1,92 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050510;
+}
+
+#sky {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 100%, #1a1030 0%, transparent 55%),
+    radial-gradient(ellipse 90% 60% at 20% 20%, #0a1830 0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 85% 30%, #12081f 0%, transparent 45%),
+    linear-gradient(180deg, #020208 0%, #0a0a1a 45%, #12081c 100%);
+}
+
+.message {
+  position: fixed;
+  left: 50%;
+  top: 64%;
+  transform: translate(-50%, 0);
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+  animation: messageRise 2.4s ease-out both, messageGlow 3.2s ease-in-out 2s infinite;
+}
+
+.message__line {
+  font-family: "Noto Serif SC", "Songti SC", serif;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  letter-spacing: 0.28em;
+  color: #ffe6f0;
+  text-shadow:
+    0 0 12px rgba(255, 120, 170, 0.9),
+    0 0 36px rgba(255, 60, 120, 0.55),
+    0 0 72px rgba(255, 40, 100, 0.35);
+}
+
+.message__sub {
+  margin-top: 0.45rem;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+  color: #ffd0e0;
+  letter-spacing: 0.08em;
+  opacity: 0.92;
+  text-shadow:
+    0 0 10px rgba(255, 150, 190, 0.8),
+    0 0 28px rgba(255, 80, 140, 0.4);
+}
+
+@keyframes messageRise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 18px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes messageGlow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.18);
+  }
+}
+
+@media (max-width: 640px) {
+  .message {
+    top: 62%;
+  }
+
+  .message__line {
+    letter-spacing: 0.18em;
+  }
+}
