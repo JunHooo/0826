@@ -19,6 +19,17 @@
 </head>
 <body>
   <canvas id="sky" aria-label="烟花动画"></canvas>
+  <audio id="bgm" loop preload="auto">
+    <source src="love.mp3" type="audio/mpeg" />
+  </audio>
+  <button type="button" class="music-btn" id="musicBtn" aria-label="播放音乐">
+    <svg class="music-btn__icon music-btn__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8 5.5v13l11-6.5z" fill="currentColor" />
+    </svg>
+    <svg class="music-btn__icon music-btn__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 6h3v12H7zm7 0h3v12h-3z" fill="currentColor" />
+    </svg>
+  </button>
   <div class="message" id="message">
     <p class="message__line">我爱你</p>
     <p class="message__sub">胡盼芬💗何俊峰</p>

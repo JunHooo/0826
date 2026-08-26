@@ -102,6 +102,66 @@ body {
   }
 }
 
+.music-btn {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid rgba(255, 140, 180, 0.45);
+  border-radius: 50%;
+  background: rgba(10, 8, 20, 0.72);
+  color: #ffd0e0;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.music-btn:hover {
+  background: rgba(30, 12, 24, 0.82);
+  border-color: rgba(255, 120, 170, 0.7);
+  color: #ffe6f0;
+}
+
+.music-btn.is-playing {
+  border-color: rgba(255, 100, 150, 0.85);
+  color: #ffe6f0;
+}
+
+.music-btn__icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.music-btn__icon--pause {
+  display: none;
+}
+
+.music-btn.is-playing .music-btn__icon--play {
+  display: none;
+}
+
+.music-btn.is-playing .music-btn__icon--pause {
+  display: block;
+  animation: musicPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 /* 手机竖屏：文字贴底部，避开爱心 */
 @media (max-width: 640px) {
   .message {

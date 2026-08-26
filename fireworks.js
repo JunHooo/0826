@@ -328,11 +328,11 @@
       const angle = (Math.PI * 2 * i) / count + Math.random() * 0.15;
       const speed = 2 + Math.random() * 4;
       spawnFw(x, y, Math.cos(angle) * speed, Math.sin(angle) * speed, color, {
-        life: 1,
-        decay: 0.02 + Math.random() * 0.012,
+        life: 1.8,
+        decay: 0.007 + Math.random() * 0.005,
         size: 1.2 + Math.random() * 1.5,
-        gravity: 0.045,
-        friction: 0.98,
+        gravity: 0.038,
+        friction: 0.985,
       });
     }
   }
@@ -403,7 +403,8 @@
   }
 
   function drawBackground() {
-    ctx.fillStyle = "rgba(5, 5, 16, 0.2)";
+    // 略减每帧淡化强度，烟花拖尾保留更久
+    ctx.fillStyle = "rgba(5, 5, 16, 0.14)";
     ctx.fillRect(0, 0, width, height);
   }
 
@@ -438,8 +439,8 @@
     for (let i = 0; i < FW_POOL; i++) {
       const p = fw[i];
       if (!p.active) continue;
-      const s = p.size * (0.55 + 0.45 * p.life);
-      ctx.globalAlpha = p.life;
+      const s = p.size * (0.65 + 0.35 * p.life);
+      ctx.globalAlpha = Math.min(1, p.life * 1.05);
       ctx.fillStyle = p.color;
       ctx.fillRect(p.x - s * 0.5, p.y - s * 0.5, s, s);
     }
@@ -532,4 +533,58 @@
   setTimeout(() => launchRocket(width * 0.8, height * 0.18, pickColor()), 500);
 
   rafId = requestAnimationFrame(loop);
+})();
+
+(() => {
+  const bgm = document.getElementById("bgm");
+  const btn = document.getElementById("musicBtn");
+  if (!bgm || !btn) return;
+
+  let playing = false;
+  let userEnabled = false;
+
+  function updateBtn() {
+    btn.classList.toggle("is-playing", playing);
+    btn.setAttribute("aria-label", playing ? "暂停音乐" : "播放音乐");
+  }
+
+  async function play() {
+    try {
+      await bgm.play();
+      playing = true;
+      userEnabled = true;
+      updateBtn();
+    } catch (_) {
+      playing = false;
+      updateBtn();
+    }
+  }
+
+  function pause() {
+    bgm.pause();
+    playing = false;
+    updateBtn();
+  }
+
+  function toggle() {
+    if (playing) {
+      userEnabled = false;
+      pause();
+    } else {
+      play();
+    }
+  }
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggle();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      if (playing) bgm.pause();
+    } else if (userEnabled) {
+      bgm.play().catch(() => {});
+    }
+  });
 })();
